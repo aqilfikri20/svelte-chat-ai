@@ -2,6 +2,7 @@
   // State pesan dan input
   let messages = [
     { role: "assistant", text: "Halo! Aku ChatGPT mini buatan Aqil 😄" }
+    { role: "assistant", text: "Silahkan Tanyakan Apapun yg anda mau" }
   ];
   let input = "";
 
