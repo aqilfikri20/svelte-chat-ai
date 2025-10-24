@@ -79,17 +79,18 @@
   <div class="messages">
     {#each messages as m}
       <div class="message {m.role}">
-        <strong>{m.role === "user" ? "Kamu" : "Asisten"}:</strong> {m.text}
+        <strong>{m.role === "user" ? "Kamu" : "Asisten"}:</strong> 
+        {m.text}
       </div>
     {/each}
   </div>
 
   <div class="input-box">
     <input
-      placeholder="Tulis pesan..."
+      placeholder="Tulis pesan Anda Disini..."
       bind:value={input}
       on:keydown={(e) => e.key === "Enter" && sendMessage()}
     />
-    <button on:click={sendMessage}>Kirim</button>
+    <button on:click={sendMessage}>Kirim Pesan</button>
   </div>
 </div>

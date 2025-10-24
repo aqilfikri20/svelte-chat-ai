@@ -1,6 +1,101 @@
-<script></script>
-<style></style>
+<script lang="ts">
+    import {onMount} from "svelte";
 
-<div>
-    <p>Ini Halaman Setting</p>
+    let message = "";
+    let textarea: HTMLTextAreaElement;
+
+    const adjustHeight = () => {
+        if(textarea) {
+            textarea.style.height = "auto";
+            textarea.style.height = `${textarea.scrollHeight}px`;
+        }
+    }
+
+    onMount(() => {
+        adjustHeight()
+    })
+
+    const handleInput = () => {
+        adjustHeight()
+    }
+
+    const sendMessage = () => {
+        console.log("Kirim", message)
+        message = ""
+        adjustHeight()
+    }
+</script>
+<style>
+    .chat-container{
+        background-color: aqua;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 95vh;
+    }
+    .chat-output{ 
+        display: flex;
+        align-items: center;
+        background-color: rgb(25, 2, 159);
+        height: 90%;
+        width: 80%;
+    }
+
+    .chat-input{
+        position: absolute;
+        bottom: 5vh;
+        background-color: rgb(225, 127, 255);
+        display: flex;
+        flex-direction: row;
+        width: 80%;
+        height: 5vh;
+    }
+
+    .text-input{
+        flex: 1;
+        background-color: antiquewhite;
+        width: 90%;
+        height: 100%;
+        display: flex;
+    }
+
+    textarea{
+        min-height: 5vh;
+        margin: 0;
+        padding-top: 1vh;
+        padding-bottom: 1vh;
+        padding-left: 10px;
+        width: 100%;
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+        font-size: 16px;
+        resize: none;
+        overflow: hidden;
+        transform-origin: bottom;
+        transition: height 0.1s;
+        box-sizing: border-box;
+    }
+
+    .chat-input button{
+        width: 10%;
+        height: 100%;
+    }
+</style>
+
+<div class="chat-container">
+    <div class="chat-output">
+    </div>
+
+    <div class="chat-input">
+        <div class="text-input">
+            <textarea
+            id="chatInput"
+            bind:this={textarea}
+            bind:value={message}
+            on:input={handleInput}
+            rows="1"
+            placeholder="Tulis Pesan Anda Disini.."></textarea>
+        </div>
+        <button on:click={sendMessage}>Send</button>
+    </div>
 </div>
