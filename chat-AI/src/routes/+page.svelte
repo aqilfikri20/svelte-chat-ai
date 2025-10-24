@@ -1,96 +1,112 @@
-<script>
-  // State pesan dan input
-  let messages = [
+<script lang="ts">
+  import ChatBubble from "$lib/components/ChatBubble.svelte";
+    import {onMount} from "svelte";
+    let textarea: HTMLTextAreaElement;
+
+    let messages = [
     { role: "assistant", text: "Halo! Aku ChatGPT mini buatan Aqil 😄" },
-    { role: "assistant", text: "Silahkan Tanyakan Apapun yg anda mau" }
-  ];
-  let input = "";
+    { role: "assistant", text: "Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau" }
+     ];
 
-  function sendMessage() {
-    if (!input.trim()) return;
-    messages = [...messages, { role: "user", text: input }];
-    input = "";
-    // nanti di sini kita hubungkan ke FastAPI
-  }
+    let input = "";
+
+    const adjustHeight = () => {
+        if(textarea) {
+            textarea.style.height = "auto";
+            textarea.style.height = `${textarea.scrollHeight}px`;
+        }
+    }
+
+    onMount(() => {
+        adjustHeight()
+    })
+
+    const handleInput = () => {
+        adjustHeight()
+    }
+
+    function sendMessage() {
+        if (!input.trim()) return;
+        messages = [...messages, { role: "user", text: input }];
+        input = "";
+        adjustHeight()
+        // nanti di sini kita hubungkan ke FastAPI
+    }
 </script>
-
 <style>
-  .chat-container {
-    max-width: 600px;
-    margin: 2rem auto;
-    border: 1px solid #444;
-    border-radius: 12px;
-    padding: 1rem;
-    background: #111;
-    color: #eee;
-    font-family: system-ui;
-    height: 80vh;
-    display: flex;
-    flex-direction: column;
-  }
+    .chat-container{
+        background-color: rgb(55, 55, 55);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 95vh;
+    }
+    .chat-output{ 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 90%;
+        width: 80%;
+    }
 
-  .messages {
-    flex: 1;
-    overflow-y: auto;
-    margin-bottom: 1rem;
-  }
+    .chat-input{
+        bottom: 5vh;
+        display: flex;
+        flex-direction: row;
+        width: 80%;
+        height: 5vh;
+        align-items: flex-end;
+    }
 
-  .message {
-    margin: 0.5rem 0;
-    padding: 0.75rem;
-    border-radius: 8px;
-    max-width: 80%;
-    word-wrap: break-word;
-  }
+    .text-input{
+        flex: 1;
+        width: 90%;
+        height: 100%;
+        display: flex;
+        align-items: flex-end;
+    }
 
-  .user {
-    background: #2563eb;
-    align-self: flex-end;
-  }
+    textarea{
+        min-height: 5vh;
+        margin: 0;
+        padding-top: 1vh;
+        padding-bottom: 1vh;
+        padding-left: 10px;
+        width: 100%;
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+        font-size: 16px;
+        resize: none;
+        overflow: hidden;
+        transform-origin: bottom;
+        transition: height 0.1s;
+        box-sizing: border-box;
+    }
 
-  .assistant {
-    background: #444;
-    align-self: flex-start;
-  }
-
-  .input-box {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  input {
-    flex: 1;
-    padding: 0.75rem;
-    border-radius: 8px;
-    border: none;
-  }
-
-  button {
-    padding: 0.75rem 1rem;
-    background: #16a34a;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-  }
+    .chat-input button{
+        width: 10%;
+        height: 100%;
+        align-self: flex-end;
+    }
 </style>
 
 <div class="chat-container">
-  <div class="messages">
-    {#each messages as m}
-      <div class="message {m.role}">
-        <strong>{m.role === "user" ? "Kamu" : "Asisten"}:</strong> 
-        {m.text}
-      </div>
-    {/each}
-  </div>
+    <div class="chat-output">
+        {#each messages as m}
+             <ChatBubble role={m.role} text={m.text} />
+        {/each}
+    </div>
 
-  <div class="input-box">
-    <input
-      placeholder="Tulis pesan Anda Disini..."
-      bind:value={input}
-      on:keydown={(e) => e.key === "Enter" && sendMessage()}
-    />
-    <button on:click={sendMessage}>Kirim Pesan</button>
-  </div>
+    <div class="chat-input">
+        <div class="text-input">
+            <textarea
+            id="chatInput"
+            bind:this={textarea}
+            bind:value={input}
+            on:input={handleInput}
+            rows="1"
+            placeholder="Tulis Pesan Anda Disini.."></textarea>
+        </div>
+        <button on:click={sendMessage}>Send</button>
+    </div>
 </div>

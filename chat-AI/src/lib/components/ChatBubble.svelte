@@ -1,6 +1,7 @@
 <script>
   export let role; // "user" atau "assistant"
   export let text;
+  
 </script>
 
 <style>
@@ -28,14 +29,8 @@
     border-bottom-left-radius: 0;
   }
 
-  strong {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-  }
 </style>
 
 <div class="bubble {role}">
-  <strong>{role === "user" ? "Kamu" : "Asisten"}</strong>
   {text}
 </div>
