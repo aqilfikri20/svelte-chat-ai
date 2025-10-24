@@ -10,7 +10,35 @@ html, body {
 }
 
 .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
     border-bottom: #111 1px solid;
     height: 5vh;
 }
+
+.navbar-left{
+    display: flex;
+    margin-left:10px ;
+    flex-direction: row;
+    gap:10px;
+}
+.navbar-right{
+    display: flex;
+    flex-direction: row;
+    margin-right:20px ;
+}
+
+a{
+    text-decoration: none;
+}
+
+a:visited{
+    color: inherit;
+}
+
+a:hover{
+    color: blue;
+}
+

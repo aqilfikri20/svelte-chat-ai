@@ -7,7 +7,15 @@
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div class="header">
-			<h4>CHAT-AI</h4>
+			<div class="navbar-left">
+				<a href="/"><h4>CHAT-AI</h4></a>
+				<div>Mode</div>
+				<a href="/setting"><div>Setting</div></a>
+			</div>
+
+			<div class="navbar-right">
+				<div>Account</div>
+			</div>
 		</div>
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
