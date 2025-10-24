@@ -4,6 +4,13 @@
     let message = "";
     let textarea: HTMLTextAreaElement;
 
+    let messages = [
+    { role: "assistant", text: "Halo! Aku ChatGPT mini buatan Aqil 😄" },
+    { role: "assistant", text: "Silahkan Tanyakan Apapun yg anda mau" }
+     ];
+
+    let input = "";
+
     const adjustHeight = () => {
         if(textarea) {
             textarea.style.height = "auto";
@@ -19,10 +26,12 @@
         adjustHeight()
     }
 
-    const sendMessage = () => {
-        console.log("Kirim", message)
-        message = ""
+    function sendMessage() {
+        if (!input.trim()) return;
+        messages = [...messages, { role: "user", text: input }];
+        input = "";
         adjustHeight()
+        // nanti di sini kita hubungkan ke FastAPI
     }
 </script>
 <style>
@@ -42,13 +51,13 @@
     }
 
     .chat-input{
-        position: absolute;
         bottom: 5vh;
         background-color: rgb(225, 127, 255);
         display: flex;
         flex-direction: row;
         width: 80%;
         height: 5vh;
+        align-items: flex-end;
     }
 
     .text-input{
@@ -57,6 +66,7 @@
         width: 90%;
         height: 100%;
         display: flex;
+        align-items: flex-end;
     }
 
     textarea{
@@ -79,6 +89,7 @@
     .chat-input button{
         width: 10%;
         height: 100%;
+        align-self: flex-end;
     }
 </style>
 
@@ -91,7 +102,7 @@
             <textarea
             id="chatInput"
             bind:this={textarea}
-            bind:value={message}
+            bind:value={input}
             on:input={handleInput}
             rows="1"
             placeholder="Tulis Pesan Anda Disini.."></textarea>
