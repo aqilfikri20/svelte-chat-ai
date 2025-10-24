@@ -1,12 +1,11 @@
 <script lang="ts">
     import {onMount} from "svelte";
 
-    let message = "";
     let textarea: HTMLTextAreaElement;
 
     let messages = [
     { role: "assistant", text: "Halo! Aku ChatGPT mini buatan Aqil 😄" },
-    { role: "assistant", text: "Silahkan Tanyakan Apapun yg anda mau" }
+    { role: "assistant", text: "Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau" }
      ];
 
     let input = "";
@@ -36,7 +35,7 @@
 </script>
 <style>
     .chat-container{
-        background-color: aqua;
+        background-color: rgb(55, 55, 55);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -44,15 +43,38 @@
     }
     .chat-output{ 
         display: flex;
+        flex-direction: column;
         align-items: center;
-        background-color: rgb(25, 2, 159);
         height: 90%;
         width: 80%;
     }
 
+    .messages {
+        flex: 1;
+        overflow-y: auto;
+        margin-bottom: 1rem;
+    }
+
+    .message {
+        margin: 0.5rem 0;
+        padding: 0.75rem;
+        border-radius: 8px;
+        max-width: 80%;
+        word-wrap: break-word;
+    }
+
+    .user {
+        background: #2563eb;
+        align-self: flex-end;
+    }
+
+    .assistant {
+        background: #ff7b7b;
+        align-self: flex-start;
+    }
+
     .chat-input{
         bottom: 5vh;
-        background-color: rgb(225, 127, 255);
         display: flex;
         flex-direction: row;
         width: 80%;
@@ -62,7 +84,6 @@
 
     .text-input{
         flex: 1;
-        background-color: antiquewhite;
         width: 90%;
         height: 100%;
         display: flex;
@@ -95,6 +116,12 @@
 
 <div class="chat-container">
     <div class="chat-output">
+        {#each messages as m}
+        <div class="message {m.role}">
+            <strong>{m.role === "user" ? "Kamu" : "Asisten"}:</strong> 
+            {m.text}
+        </div>
+    {/each}
     </div>
 
     <div class="chat-input">
