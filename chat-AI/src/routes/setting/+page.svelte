@@ -8,7 +8,7 @@
     { role: "assistant", text: "Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau" }
      ];
 
-    let input = "";
+    let input = "Masukkan Kata";
 
     const adjustHeight = () => {
         if(textarea) {
