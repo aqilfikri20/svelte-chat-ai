@@ -37,9 +37,7 @@ async function sendMessage() {
   adjustHeight();
   loading = true;
 
-  // siapkan payload (kirim ringkasan / beberapa pesan terakhir untuk konteks)
-  // kirim hanya beberapa pesan terakhir supaya payload tidak terlalu besar
-  const context = messages.slice(-8); // kirim 8 pesan terakhir sebagai konteks
+  const context = messages.slice(-8); 
 
   try {
     const resp = await fetch("http://localhost:8000/chat", {
@@ -57,8 +55,7 @@ async function sendMessage() {
     // backend mengembalikan { reply: "..." }
     if (data && data.reply) {
       messages = [...messages, { role: "assistant", text: data.reply }];
-      // auto-scroll: scroll chat-output to bottom
-      // kecil: execute after dom updates
+   
       await tick();
       const container = document.querySelector('.chat-output') as HTMLElement;
       if (container) container.scrollTop = container.scrollHeight;
