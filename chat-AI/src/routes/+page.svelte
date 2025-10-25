@@ -1,37 +1,77 @@
 <script lang="ts">
-  import ChatBubble from "$lib/components/ChatBubble.svelte";
-    import {onMount} from "svelte";
-    let textarea: HTMLTextAreaElement;
+ import ChatBubble from "$lib/components/ChatBubble.svelte";
+import { onMount, tick } from "svelte";
 
-    let messages = [
-    { role: "assistant", text: "Halo! Aku ChatGPT mini buatan Aqil 😄" },
-    { role: "assistant", text: "Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau Silahkan Tanyakan Apapun yg anda mau" }
-     ];
+let textarea: HTMLTextAreaElement;
+let messages = [
+  { role: "assistant", text: "Halo! Aku ChatGPT mini buatan Aqil 😄" },
+  { role: "assistant", text: "Silahkan Tanyakan Apapun..." }
+];
+let input = "";
+let loading = false;
 
-    let input = "";
+const adjustHeight = () => {
+  if (textarea) {
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  }
+};
 
-    const adjustHeight = () => {
-        if(textarea) {
-            textarea.style.height = "auto";
-            textarea.style.height = `${textarea.scrollHeight}px`;
-        }
+onMount(() => {
+  adjustHeight();
+});
+
+const handleInput = () => {
+  adjustHeight();
+  // optional: limit input length
+  if (input.length > 4000) input = input.slice(0, 4000);
+};
+
+async function sendMessage() {
+  const trimmed = input.trim();
+  if (!trimmed || loading) return;
+
+  // tambah pesan user dulu ke UI
+  messages = [...messages, { role: "user", text: trimmed }];
+  input = "";
+  adjustHeight();
+  loading = true;
+
+  // siapkan payload (kirim ringkasan / beberapa pesan terakhir untuk konteks)
+  // kirim hanya beberapa pesan terakhir supaya payload tidak terlalu besar
+  const context = messages.slice(-8); // kirim 8 pesan terakhir sebagai konteks
+
+  try {
+    const resp = await fetch("http://localhost:8000/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: context })
+    });
+
+    if (!resp.ok) {
+      const txt = await resp.text();
+      throw new Error(`Server error: ${resp.status} ${txt}`);
     }
 
-    onMount(() => {
-        adjustHeight()
-    })
-
-    const handleInput = () => {
-        adjustHeight()
+    const data = await resp.json();
+    // backend mengembalikan { reply: "..." }
+    if (data && data.reply) {
+      messages = [...messages, { role: "assistant", text: data.reply }];
+      // auto-scroll: scroll chat-output to bottom
+      // kecil: execute after dom updates
+      await tick();
+      const container = document.querySelector('.chat-output') as HTMLElement;
+      if (container) container.scrollTop = container.scrollHeight;
+    } else {
+      throw new Error("Invalid response from server");
     }
-
-    function sendMessage() {
-        if (!input.trim()) return;
-        messages = [...messages, { role: "user", text: input }];
-        input = "";
-        adjustHeight()
-        // nanti di sini kita hubungkan ke FastAPI
-    }
+  } catch (err) {
+    console.error(err);
+    messages = [...messages, { role: "assistant", text: "Terjadi kesalahan saat menghubungi server." }];
+  } finally {
+    loading = false;
+  }
+}
 </script>
 <style>
     .chat-container{
@@ -47,6 +87,7 @@
         align-items: center;
         height: 90%;
         width: 80%;
+        overflow-y:auto;
     }
 
     .chat-input{
@@ -56,6 +97,15 @@
         width: 80%;
         height: 5vh;
         align-items: flex-end;
+    }
+
+    .chat-output::-webkit-scrollbar {
+        display: none; /* Chrome, Safari */
+    }
+
+    .chat-output {
+        -ms-overflow-style: none;  /* Internet Explorer dan Edge lama */
+        scrollbar-width: none;     /* Firefox */
     }
 
     .text-input{
@@ -88,6 +138,8 @@
         height: 100%;
         align-self: flex-end;
     }
+
+    button[disabled] { opacity: 0.6; cursor: not-allowed; }
 </style>
 
 <div class="chat-container">
@@ -107,6 +159,12 @@
             rows="1"
             placeholder="Tulis Pesan Anda Disini.."></textarea>
         </div>
-        <button on:click={sendMessage}>Send</button>
+        <button on:click={sendMessage} disabled={loading}>
+                {#if loading}
+                    Mengirim...
+                {:else}
+                    Send
+                {/if}
+        </button>
     </div>
 </div>
