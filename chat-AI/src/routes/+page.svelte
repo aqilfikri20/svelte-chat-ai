@@ -136,6 +136,17 @@ async function sendMessage() {
         align-self: flex-end;
     }
 
+    button{
+        margin: 0;
+        border-radius: 0px 10px 10px 0px;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: rgb(55, 55, 55);
+        color: white;
+        border: white 3px solid;
+    }
+
     button[disabled] { opacity: 0.6; cursor: not-allowed; }
 </style>
 
