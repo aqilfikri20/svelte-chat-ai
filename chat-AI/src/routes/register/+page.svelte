@@ -102,7 +102,7 @@
             <input type="password" placeholder="Masukkan Password"/>
             <input type="password" placeholder="Konfirmasi Password"/>
             <div class="verifikasi">
-                <label>Verifikasi dengan:</label>
+                <p>Verifikasi dengan:</p>
                 <div class="radio-register">
                     <label><input type="radio" name="verifikasi" value="email" checked/> Email</label>
                     <label><input type="radio" name="verifikasi" value="sms"/> SMS</label>
