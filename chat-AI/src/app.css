@@ -6,7 +6,7 @@
 
 html, body {
   height: 100%;
-  width: 100%;;/* opsional biar keliatan full hitam */
+  width: 100%;
 }
 
 .header {
@@ -40,5 +40,8 @@ a:visited{
 
 a:hover{
     color: blue;
+}
+a{
+    cursor: pointer;
 }
 
