@@ -9,39 +9,4 @@ html, body {
   width: 100%;
 }
 
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    border-bottom: #ff0f0f 1px solid;
-    height: 5vh;
-}
-
-.navbar-left{
-    display: flex;
-    margin-left:10px ;
-    flex-direction: row;
-    gap:10px;
-}
-.navbar-right{
-    display: flex;
-    flex-direction: row;
-    margin-right:15px ;
-}
-
-a{
-    text-decoration: none;
-}
-
-a:visited{
-    color: inherit;
-}
-
-a:hover{
-    color: blue;
-}
-a{
-    cursor: pointer;
-}
 
