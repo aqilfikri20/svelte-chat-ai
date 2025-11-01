@@ -30,7 +30,9 @@
         display: flex;
         margin-left:10px ;
         flex-direction: row;
-        gap:10px;
+        background-color: aqua;
+        height: 100%;
+        gap: 10px;
     }
     .navbar-right{
         display: flex;
@@ -46,6 +48,16 @@
         color: inherit;
     }
 
+    .header a, 
+    .header button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+    width: 50px;
+    background-color: tomato;
+    }
+
     a:hover{
         color: blue;
     }
@@ -54,8 +66,22 @@
     }   
 
 	.dropdown {
+        display: flex;
+        align-items: center;
+        justify-content: center;
 		position: relative;
+        width: 100%;
 	}
+
+    .dropdown button{
+        background-color: #ff0f0f;
+        border: none;
+        color: white;
+        font-size: 1rem;
+        border-radius: 5px;
+        height: 100%;
+        width: 100%;
+    }   
 	.dropdown-btn {
 		cursor: pointer;
 	}
@@ -71,29 +97,29 @@
 		flex-direction: column;
 		z-index: 10;
 	}
-	.dropdown-menu a {
+	.dropdown-menu button {
 		padding: 0.3rem 0.7rem;
 		text-decoration: none;
 		color: black;
 	}
-	.dropdown-menu a:hover {
+	.dropdown-menu button:hover {
 		background: #eee;
 	}
 </style>
 
 <div class="header">
 	<div class="navbar-left">
-		<a href="/"><h4>CHAT-AI</h4></a>
-			<div class="dropdown">
-			<span class="dropdown-btn" on:click={toggleDropdown}>Tema ▾</span>
-                {#if open}
-                    <div class="dropdown-menu">
-                        <a on:click={() => setTheme("Terang")}>Terang</a>
-                        <a on:click={() => setTheme("Gelap")}>Gelap</a>
-                        <a on:click={() => setTheme("Sistem")}>Sistem</a>
-                    </div>
-                {/if}
-		    </div>
+		<a href="/">CHAT-AI</a>
+		<div class="dropdown">
+			<button type="button"class="dropdown-btn" on:click={toggleDropdown}>Tema ▾</button>
+            {#if open}
+                <div class="dropdown-menu">
+                    <button type="button" on:click={() => setTheme("Gelap")}>Gelap</button>
+                    <button type="button" on:click={() => setTheme("Terang")}>Terang</button>
+                    <button type="button" on:click={() => setTheme("Sistem")}>Sistem</button>
+                </div>
+            {/if}
+		</div>
 		<a href="/setting">Setting</a>
 	</div>
 
