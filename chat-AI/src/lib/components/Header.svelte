@@ -30,9 +30,11 @@
         display: flex;
         margin-left:10px ;
         flex-direction: row;
+        gap:10px;
         background-color: aqua;
         height: 100%;
-        gap: 10px;
+        width: auto;
+        align-items: center;
     }
     .navbar-right{
         display: flex;
@@ -48,16 +50,6 @@
         color: inherit;
     }
 
-    .header a, 
-    .header button {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-    width: 50px;
-    background-color: tomato;
-    }
-
     a:hover{
         color: blue;
     }
@@ -66,11 +58,7 @@
     }   
 
 	.dropdown {
-        display: flex;
-        align-items: center;
-        justify-content: center;
 		position: relative;
-        width: 100%;
 	}
 
     .dropdown button{
@@ -80,7 +68,6 @@
         font-size: 1rem;
         border-radius: 5px;
         height: 100%;
-        width: 100%;
     }   
 	.dropdown-btn {
 		cursor: pointer;
@@ -109,7 +96,7 @@
 
 <div class="header">
 	<div class="navbar-left">
-		<a href="/">CHAT-AI</a>
+		<a href="/"><h4>CHAT-AI</h4></a>
 		<div class="dropdown">
 			<button type="button"class="dropdown-btn" on:click={toggleDropdown}>Tema ▾</button>
             {#if open}
