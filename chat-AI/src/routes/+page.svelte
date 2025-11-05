@@ -4,8 +4,8 @@ import { onMount, tick } from "svelte";
 
 let textarea: HTMLTextAreaElement;
 let messages = [
-  { role: "assistant", text: "Halo! Aku ChatGPT mini buatan Aqil 😄" },
-  { role: "assistant", text: "Silahkan Tanyakan Apapun..." }
+  { role: "assistant", text: "Halo! Selamat Datang 😄" },
+  { role: "assistant", text: "Bangun cerita imajinasimu disini.." }
 ];
 let input = "";
 let loading = false;
