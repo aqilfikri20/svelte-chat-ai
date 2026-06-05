@@ -6,7 +6,7 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import torch
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-import random
+
 app = FastAPI()
 
 # =========================
@@ -36,7 +36,7 @@ class ChatResponse(BaseModel):
 # =========================
 # Config
 # =========================
-MODEL_NAME = "model_cerita8"
+MODEL_NAME = "model_cerita7"
 MAX_INPUT_LENGTH = 512
 
 print("Loading model:", MODEL_NAME)
@@ -50,78 +50,7 @@ model.eval()
 
 print("Model loaded on", device)
 
-# =========================
-# Struktur cerita
-# =========================
-bagian_list = [
-    "orientasi 1",
-    "orientasi 2",
-    "konflik awal 1",
-    "konflik awal 2",
-    "eskalasi 1",
-    "eskalasi 2",
-    "klimaks 1",
-    "klimaks 2",
-    "resolusi",
-    "epilog"
-]
 
-nama_list = [
-    "Ardi Pratama",
-    "Dimas Saputra",
-    "Raka Wijaya",
-    "Nanda Putri",
-    "Sinta Maharani"
-]
-
-peran_list = {
-    "pegawai",
-    "petani",
-    "nelayan",
-    "dokter",
-    "guru"
-}
-
-elemen_list = {
-    "keluarga",
-    "persahabatan",
-    "cinta",
-    "petualangan",
-    "misteri"
-}
-
-sifat_list = {
-    "baik",
-    "jujur",
-    "berani",
-    "sabar",
-    "peduli"
-}
-def parse_keywords(text):
-    keywords = [
-        x.strip().lower()
-        for x in text.split(",")
-        if x.strip()
-    ]
-
-    peran = []
-    sifat = []
-    elemen = []
-
-    for word in keywords:
-
-        if word in peran_list:
-            peran.append(word)
-
-        elif word in elemen_list:
-            elemen.append(word)
-
-        elif word in sifat_list:
-            sifat.append(word)
-        else:
-            elemen.append(word)
-
-    return peran, elemen, sifat
 # =========================
 # Cleaning output
 # =========================
@@ -140,26 +69,34 @@ def clean_text(text):
 # =========================
 # Generate 1 paragraf
 # =========================
-def generate_paragraph(prompt):
+def generate_story(tema: str):
+
+    prompt = f"""{tema}
+"""
 
     inputs = tokenizer(
         prompt,
         return_tensors="pt",
         truncation=True,
-        max_length=MAX_INPUT_LENGTH
+        max_length=128
     ).to(device)
 
     with torch.no_grad():
+        bad_words_ids = [
+            tokenizer.encode(f"<extra_id_{i}>", add_special_tokens=False)
+            for i in range(100)
+        ]
+
         outputs = model.generate(
             **inputs,
-            max_new_tokens=512,
-            min_new_tokens=256,
-            temperature=0.5,
-            top_p=0.9,
-            repetition_penalty=1.3,
-            no_repeat_ngram_size=4,
-            do_sample=False,
-            num_beams=4
+            max_new_tokens=4096,
+            min_new_tokens=2056,   # 🔥 cukup untuk 10 paragraf
+            temperature=0.55,
+            top_p=0.7,
+            repetition_penalty=1.7,
+            no_repeat_ngram_size=5,
+            do_sample=True,
+            bad_words_ids=bad_words_ids
         )
 
     result = tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
@@ -167,50 +104,6 @@ def generate_paragraph(prompt):
 
     return result
 
-# =========================
-# Generate full story
-# =========================
-def generate_story(user_input: str):
-    peran, elemen, sifat = parse_keywords(user_input)
-    paragraphs = []
-
-    for i in range(10):
-
-        if i == 0:
-            prompt = f"""
-                Peran: {", ".join(peran)}
-                Elemen: {", ".join(elemen)}
-                Sifat: {", ".join(sifat)}
-                Bagian: {bagian_list[i]}
-                """
-        else:
-            konteks = "\n\n".join(paragraphs[-2:])  # batasi konteks
-
-            prompt = f"""
-                Peran: {", ".join(peran)}
-                Elemen: {", ".join(elemen)}
-                Sifat: {", ".join(sifat)}
-                Konteks: {konteks}
-                Bagian: {bagian_list[i]}
-                """
-
-        paragraph = generate_paragraph(prompt)
-
-        # guard jika terlalu pendek
-        if len(paragraph.split()) < 50:
-            paragraph = generate_paragraph(prompt)
-
-        # fallback jika kosong
-        if not paragraph:
-            paragraph = "Cerita tidak dapat dilanjutkan."
-
-        paragraphs.append(paragraph)
-
-    return "\n\n".join(paragraphs)
-
-# =========================
-# Endpoint
-# =========================
 @app.options("/chat")
 def chat_options():
     return JSONResponse(status_code=200, content={"message": "OK"})
