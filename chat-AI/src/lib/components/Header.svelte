@@ -72,6 +72,7 @@
     }
     
     .header a{
+        font-family: "Special Elite", cursive;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -83,9 +84,11 @@
     }
 
 	.dropdown-btn {
+        font-family: "Special Elite", cursive;
 		cursor: pointer;
 	}
 	.dropdown-menu {
+        
 		position: absolute;
 		top: 100%;
 		left: 0;
@@ -98,6 +101,7 @@
 		z-index: 10;
 	}
 	.dropdown-menu button {
+        
 		padding: 0.3rem 0.7rem;
 		text-decoration: none;
 		color: black;
@@ -111,7 +115,7 @@
 	<div class="navbar-left">
         <a href="/">CHAT-AI</a>
 		<div class="dropdown">
-			<button type="button"class="dropdown-btn" on:click={toggleDropdown}>Tema ▾</button>
+			<button type="button"class="dropdown-btn" on:click={toggleDropdown}>Font ▾</button>
             {#if open}
                 <div class="dropdown-menu">
                     <button class="dropdown-btn" type="button" on:click={() => setTheme("Gelap")}>Gelap</button>
@@ -120,11 +124,8 @@
                 </div>
             {/if}
 		</div>
-		<a href="/setting">Setting</a>
+		<a href="/setting">Warna</a>
 	</div>
 
-	<div class="navbar-right">
-		<a href="/login">Login</a>
-	</div>
-        
+
 </div>

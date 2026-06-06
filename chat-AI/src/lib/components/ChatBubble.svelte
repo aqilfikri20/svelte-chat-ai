@@ -1,6 +1,6 @@
 <script>
   export let role; // "user" atau "assistant"
-  export let text;
+  export let text ;
   
 </script>
 
@@ -14,16 +14,30 @@
     line-height: 1.5;
     font-size: 0.95rem;
   }
+  
 
   .user {
-    background: #2563eb;
+    background: #00c96f;
     color: white;
     align-self: flex-end;
     border-bottom-right-radius: 0;
   }
 
+.story {
+  font-family: "Special Elite", cursive;
+  font-size: 14pt;
+  line-height: 1.7;
+  text-align: justify;
+  color: #f8fafc;
+  max-width: 700px;
+}
+
+.story p {
+  margin-bottom: 1rem;
+}
+
   .assistant {
-    background: #444;
+    background: #2563eb;
     color: #f1f5f9;
     align-self: flex-start;
     border-bottom-left-radius: 0;
@@ -32,5 +46,9 @@
 </style>
 
 <div class="bubble {role}">
-  {text}
+<div class="story">
+  {#each text.split('\n\n') as paragraph}
+    <p>{paragraph}</p>
+  {/each}
+</div>
 </div>
