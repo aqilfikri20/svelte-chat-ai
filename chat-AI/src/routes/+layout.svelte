@@ -57,6 +57,7 @@ if (savedFont) {
 
 <style>
 main {
+	min-height: calc(100vh - 5vh);
 	background: var(--background);
 }
 </style>

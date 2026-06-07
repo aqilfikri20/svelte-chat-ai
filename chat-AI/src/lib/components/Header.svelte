@@ -1,8 +1,36 @@
 <script lang="ts">
     import { onMount } from "svelte";
-
+let sizeOpen = false;
+let currentSize = "14px";
     let open = false;
     let currentFont = "Special Elite";
+
+const fontSizes = [
+    "12px",
+    "14px",
+    "16px",
+    "18px",
+    "20px",
+    "24px",
+    "28px"
+];
+
+function toggleSizeDropdown() {
+    sizeOpen = !sizeOpen;
+}
+
+function setFontSize(size: string) {
+    currentSize = size;
+    sizeOpen = false;
+
+    localStorage.setItem("fontSize", size);
+
+    document.documentElement.style.setProperty(
+        "--app-font-size",
+        size
+    );
+}
+
 
     const fonts = [
         "Special Elite",
@@ -31,6 +59,16 @@
     }
 
     onMount(() => {
+        const savedSize =
+    localStorage.getItem("fontSize") ||
+    "16px";
+
+currentSize = savedSize;
+
+document.documentElement.style.setProperty(
+    "--app-font-size",
+    savedSize
+);
         const saved =
             localStorage.getItem("font") ||
             "Special Elite";
@@ -171,8 +209,29 @@
                 </div>
             {/if}
         </div>
+        <div class="dropdown">
+    <button
+        type="button"
+        class="dropdown-btn"
+        on:click={toggleSizeDropdown}
+    >
+        {currentSize} ▾
+    </button>
 
+    {#if sizeOpen}
+        <div class="dropdown-menu">
+            {#each fontSizes as size}
+                <button
+                    type="button"
+                    on:click={() => setFontSize(size)}
+                >
+                    {size}
+                </button>
+            {/each}
+        </div>
+    {/if}
+</div>
         <a href="/color">Color</a>
-        <a href="/size">Size</a>
+        
     </div>
 </div>

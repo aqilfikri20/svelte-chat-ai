@@ -18,17 +18,17 @@
 
   .user {
     background: var(--user-bubble);
-    color: white;
+    color: var(--font-color);
     align-self: flex-end;
     border-bottom-right-radius: 0;
   }
 
 .story {
   font-family: var(--app-font), sans-serif;
-  font-size: 14pt;
+  font-size: var(--app-font-size);
   line-height: 1.7;
   text-align: justify;
-  color: #f8fafc;
+  color: var(--font-color);
   max-width: 700px;
 }
 
@@ -38,7 +38,7 @@
 
   .assistant {
     background: var(--assistant-bubble);
-    color: #f1f5f9;
+    color: var(--font-color);
     align-self: flex-start;
     border-bottom-left-radius: 0;
   }

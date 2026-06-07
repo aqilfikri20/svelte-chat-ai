@@ -19,6 +19,10 @@ let backgroundR = 25;
 let backgroundG = 25;
 let backgroundB = 25;
 
+let fontR = 255;
+let fontG = 255;
+let fontB = 255;
+
 $: userColor =
     `rgb(${userR}, ${userG}, ${userB})`;
 
@@ -27,6 +31,10 @@ $: assistantColor =
 
 $: backgroundColor =
     `rgb(${backgroundR}, ${backgroundG}, ${backgroundB})`;
+    
+
+$: fontColor =
+    `rgb(${fontR}, ${fontG}, ${fontB})`;
 
 $: if (loaded) {
     document.documentElement.style.setProperty(
@@ -76,6 +84,22 @@ $: if (loaded) {
     );
 }
 
+$: if (loaded) {
+    document.documentElement.style.setProperty(
+        "--font-color",
+        fontColor
+    );
+
+    localStorage.setItem(
+        "fontColor",
+        JSON.stringify({
+            r: fontR,
+            g: fontG,
+            b: fontB
+        })
+    );
+}
+
 onMount(() => {
     const savedUser =
         localStorage.getItem("userBubble");
@@ -109,6 +133,18 @@ onMount(() => {
         backgroundG = rgb.g;
         backgroundB = rgb.b;
     }
+    
+    const savedFont =
+        localStorage.getItem("fontColor");
+
+    if (savedFont) {
+        const rgb = JSON.parse(savedFont);
+
+        fontR = rgb.r;
+        fontG = rgb.g;
+        fontB = rgb.b;
+    }
+
     loaded = true;
 });
 </script>
@@ -196,7 +232,46 @@ onMount(() => {
         bind:value={assistantB}
     />
 
-    <p>{backgroundColor}</p>
+    <p>{assistantColor}</p>
+
+
+        <h2>Warna Font</h2>
+
+
+    <label for="font-red">
+        Merah ({fontR})
+    </label>
+    <input
+        id="font-red"
+        type="range"
+        min="0"
+        max="255"
+        bind:value={fontR}
+    />
+
+    <label for="font-green">
+        Hijau ({fontG})
+    </label>
+    <input
+        id="font-green"
+        type="range"
+        min="0"
+        max="255"
+        bind:value={fontG}
+    />
+
+    <label for="font-blue">
+        Biru ({fontB})
+    </label>
+    <input
+        id="font-blue"
+        type="range"
+        min="0"
+        max="255"
+        bind:value={fontB}
+    />
+
+    <p>{fontColor}</p>
 
         <h2>Warna Background</h2>
 
@@ -268,12 +343,12 @@ onMount(() => {
 .preview {
     padding: 16px 20px;
     border-radius: 18px;
-    color: white;
+    color: var(--font-color);
     font-size: 1rem;
     font-weight: 500;
     width: fit-content;
     min-width: 220px;
-    max-width: 80%;
+    width: 100%;
     box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     transition: all 0.15s ease;
 }
@@ -300,12 +375,14 @@ input[type="range"] {
     
 #user-red,
 #assistant-red,
-#background-red {
+#background-red,
+#font-red {
     accent-color: rgb(255, 60, 60);
 }
 
 /* Slider hijau */
 #background-green,
+#font-green,
 #user-green,
 #assistant-green {
     accent-color: rgb(0, 220, 120);
@@ -313,6 +390,7 @@ input[type="range"] {
 
 /* Slider biru */
 #background-blue,
+#font-blue,
 #user-blue,
 #assistant-blue {
     accent-color: rgb(70, 130, 255);
