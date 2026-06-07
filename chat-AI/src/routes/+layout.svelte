@@ -3,9 +3,20 @@ import { onMount } from "svelte";
 	import favicon from '$lib/assets/favicon.svg';
 	import "../app.css"
 	import Header from '$lib/components/Header.svelte';
+	let loaded = false;
 	let { children } = $props();
 
 onMount(() => {
+	const savedFont =
+    localStorage.getItem("font");
+
+if (savedFont) {
+    document.documentElement.style.setProperty(
+        "--app-font",
+        `"${savedFont}"`
+    );
+}
+
     const savedUser =
         localStorage.getItem("userBubble");
 
@@ -45,10 +56,16 @@ onMount(() => {
 </script>
 
 <style>
+main {
+	background: var(--background);
+}
 </style>
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
 <Header />
-{@render children?.()}
+<main>
+	{@render children?.()}
+</main>
+

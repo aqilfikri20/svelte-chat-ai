@@ -42,37 +42,18 @@
             `"${saved}"`
         );
     });
-    onMount(() => {
-    const userBubble =
-        localStorage.getItem("userBubble");
-
-    const assistantBubble =
-        localStorage.getItem("assistantBubble");
-
-    if (userBubble) {
-        document.documentElement.style.setProperty(
-            "--user-bubble",
-            userBubble
-        );
-    }
-
-    if (assistantBubble) {
-        document.documentElement.style.setProperty(
-            "--assistant-bubble",
-            assistantBubble
-        );
-    }
-});
+ 
 </script>
 
 <style>
     .header {
+        background-color: rgb(25, 25, 25);
         display: flex;
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        border-bottom: #ff0f0f 1px solid;
-        height: 5vh;
+        border-bottom: #ffffff 3px solid;
+        height: 6vh;
     }
 
     .navbar-left {
@@ -123,7 +104,7 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-        color: black;
+        color: white;
         min-width: 100px;
         height: 100%;
     }
@@ -131,13 +112,15 @@
     .dropdown-btn {
         font-family: var(--app-font), sans-serif;
         cursor: pointer;
+        background: rgb(25, 25, 25);
+        color:white
     }
 
     .dropdown-menu {
         position: absolute;
         top: 100%;
         left: 0;
-        background: white;
+        background: rgb(25, 25, 25);
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         border-radius: 8px;
         display: flex;
@@ -149,14 +132,15 @@
     .dropdown-menu button {
         padding: 0.5rem;
         text-align: left;
-        background: white;
-        color: black;
+        background: rgb(25, 25, 25);
+        color: rgb(255, 255, 255);
         border: none;
         width: 100%;
     }
 
     .dropdown-menu button:hover {
         background: #eee;
+        color:black;
     }
 </style>
 

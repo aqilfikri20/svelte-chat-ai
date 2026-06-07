@@ -1,4 +1,5 @@
 <script lang="ts">
+let loaded = false;
 import { onMount } from "svelte";
 import { goto } from "$app/navigation";
 
@@ -27,7 +28,7 @@ $: assistantColor =
 $: backgroundColor =
     `rgb(${backgroundR}, ${backgroundG}, ${backgroundB})`;
 
-$: {
+$: if (loaded) {
     document.documentElement.style.setProperty(
         "--user-bubble",
         userColor
@@ -43,7 +44,7 @@ $: {
     );
 }
 
-$: {
+$: if (loaded) {
     document.documentElement.style.setProperty(
         "--assistant-bubble",
         assistantColor
@@ -59,7 +60,7 @@ $: {
     );
 }
 
-$: {
+$: if (loaded) {
     document.documentElement.style.setProperty(
         "--background",
         backgroundColor
@@ -108,6 +109,7 @@ onMount(() => {
         backgroundG = rgb.g;
         backgroundB = rgb.b;
     }
+    loaded = true;
 });
 </script>
 <div class="container">
@@ -198,12 +200,6 @@ onMount(() => {
 
         <h2>Warna Background</h2>
 
-    <div
-        class="preview"
-        style="background:{backgroundColor}"
-    >
-        Contoh Pesan Assistant
-    </div>
 
     <label for="background-red">
         Merah ({backgroundR})
@@ -249,7 +245,7 @@ onMount(() => {
 <style>
     .container {
     max-width: 700px;
-    margin: 30px auto;
+    margin: auto;
     padding: 25px;
     border-radius: 20px;
     background: #1e1e1e;
