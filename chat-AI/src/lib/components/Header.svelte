@@ -1,4 +1,5 @@
 <script lang="ts">
+import logo from "$lib/assets/logo.png";
     import { onMount } from "svelte";
 let sizeOpen = false;
 let currentSize = "14px";
@@ -119,20 +120,16 @@ document.documentElement.style.setProperty(
         color: inherit;
     }
 
-    a:hover {
-        color: blue;
-    }
-
     .dropdown {
         position: relative;
-        height: 100%;
+        height: 70%;
     }
 
     .dropdown button {
         border: none;
-        font-size: 1rem;
+        font-size: 17px;
         border-radius: 5px;
-        height: 100%;
+        height:100%;
         min-width: 150px;
     }
 
@@ -147,12 +144,26 @@ document.documentElement.style.setProperty(
         height: 100%;
     }
 
-    .dropdown-btn {
-        font-family: var(--app-font), sans-serif;
-        cursor: pointer;
-        background: rgb(25, 25, 25);
-        color:white
+    .font-color {
+        height:70%;
+        border-radius: 5px;
     }
+
+.dropdown-btn {
+    background:
+        linear-gradient(
+            90deg,
+            #1d8fff,
+            #ff8c1a
+        );
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color:
+        transparent;
+
+    font-weight: 600;
+}
 
     .dropdown-menu {
         position: absolute;
@@ -180,20 +191,107 @@ document.documentElement.style.setProperty(
         background: #eee;
         color:black;
     }
+
+    .logo-link {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.logo {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+.animated-border {
+    position: relative;
+    padding: 2px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.animated-border::before {
+    content: "";
+
+    position: absolute;
+    inset: -50%;
+
+    background:
+        conic-gradient(
+            from 0deg,
+            #ff8c1a,
+            #0069d2,
+            #0e08d1
+        );
+
+    animation:
+        spin 3s linear infinite;
+}
+
+.animated-border button {
+    position: relative;
+    z-index: 1;
+
+    border: none;
+
+    background:
+        rgb(25,25,25);
+
+    color: white;
+
+    border-radius: 8px;
+
+}
+.animated-border::before {
+    filter:
+        blur(8px);
+
+    opacity: .8;
+}
+
+.gradient-text {
+    background:white ;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+    font-weight: 700;
+}
+
+@keyframes spin {
+    from {
+        transform:
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            rotate(360deg);
+    }
+}
 </style>
 
 <div class="header">
     <div class="navbar-left">
-        <a href="/">CHAT-AI</a>
+        <a href="/" class="logo-link">
+    <img src={logo} alt="CHAT-AI Logo" class="logo" />
+</a>
 
         <div class="dropdown">
+        <div class="animated-border">
             <button
                 type="button"
                 class="dropdown-btn"
                 on:click={toggleDropdown}
             >
-                {currentFont} ▾
+                <span class="gradient-text">
+                    Font ▾
+                </span>
             </button>
+        </div>
 
             {#if open}
                 <div class="dropdown-menu">
@@ -210,13 +308,17 @@ document.documentElement.style.setProperty(
             {/if}
         </div>
         <div class="dropdown">
-    <button
-        type="button"
-        class="dropdown-btn"
-        on:click={toggleSizeDropdown}
-    >
-        {currentSize} ▾
-    </button>
+        <div class="animated-border">
+            <button
+                type="button"
+                class="dropdown-btn"
+                on:click={toggleSizeDropdown}
+            >
+                <span class="gradient-text">
+                    Size ▾
+                </span>
+            </button>
+        </div>
 
     {#if sizeOpen}
         <div class="dropdown-menu">
@@ -231,7 +333,7 @@ document.documentElement.style.setProperty(
         </div>
     {/if}
 </div>
-        <a href="/color">Color</a>
+        <div class="font-color"><a href="/color">Color</a></div>
         
     </div>
 </div>

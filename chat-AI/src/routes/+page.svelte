@@ -161,7 +161,7 @@ async function sendMessage() {
         border: none;
         font-size: 16px;
         cursor: pointer;
-        background-color: var(--background);
+        background-color: rgb(25, 25, 25);
         color: white;
         border: white 3px solid;
     }
