@@ -3,6 +3,9 @@
   padding: 0;
   box-sizing: border-box;
 }
+:root {
+    --app-font: "Special Elite";
+}
 
 html, body {
   height: 100%;

@@ -24,7 +24,7 @@
   }
 
 .story {
-  font-family: "Special Elite", cursive;
+  font-family: var(--app-font), sans-serif;
   font-size: 14pt;
   line-height: 1.7;
   text-align: justify;
