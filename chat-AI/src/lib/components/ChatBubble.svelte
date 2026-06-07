@@ -17,7 +17,7 @@
   
 
   .user {
-    background: #00c96f;
+    background: var(--user-bubble);
     color: white;
     align-self: flex-end;
     border-bottom-right-radius: 0;
@@ -37,7 +37,7 @@
 }
 
   .assistant {
-    background: #2563eb;
+    background: var(--assistant-bubble);
     color: #f1f5f9;
     align-self: flex-start;
     border-bottom-left-radius: 0;

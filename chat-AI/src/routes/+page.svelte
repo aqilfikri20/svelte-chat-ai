@@ -91,7 +91,7 @@ async function sendMessage() {
 </script>
 <style>
     .chat-container{
-        background-color: rgb(55, 55, 55);
+        background: var(--background);
         display: flex;
         flex-direction: column;
         align-items: center;

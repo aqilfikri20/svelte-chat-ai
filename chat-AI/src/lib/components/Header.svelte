@@ -42,6 +42,27 @@
             `"${saved}"`
         );
     });
+    onMount(() => {
+    const userBubble =
+        localStorage.getItem("userBubble");
+
+    const assistantBubble =
+        localStorage.getItem("assistantBubble");
+
+    if (userBubble) {
+        document.documentElement.style.setProperty(
+            "--user-bubble",
+            userBubble
+        );
+    }
+
+    if (assistantBubble) {
+        document.documentElement.style.setProperty(
+            "--assistant-bubble",
+            assistantBubble
+        );
+    }
+});
 </script>
 
 <style>
@@ -167,6 +188,7 @@
             {/if}
         </div>
 
-        <a href="/setting">Warna</a>
+        <a href="/color">Color</a>
+        <a href="/size">Size</a>
     </div>
 </div>

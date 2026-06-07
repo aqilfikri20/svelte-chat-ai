@@ -1,11 +1,15 @@
+:root {
+    --app-font: "Special Elite";
+    --user-bubble: #00c96f;
+    --assistant-bubble: #2563eb;
+    --background: #f5f5f5;
+}
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-:root {
-    --app-font: "Special Elite";
-}
+
 
 html, body {
   height: 100%;
