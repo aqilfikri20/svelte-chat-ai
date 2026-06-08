@@ -179,18 +179,16 @@ document.documentElement.style.setProperty(
     .color-link {
     position: relative;
     z-index: 1;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     height: 100%;
+    padding: 2.5px;
     width: 140px;
-
     background: rgb(25,25,25);
-
     border-radius: 8px;
     text-decoration: none;
+    font-size: 17px;
 }
 
 .dropdown-btn {
@@ -294,13 +292,14 @@ document.documentElement.style.setProperty(
 
 .gradient-text {
     background:white ;
+    font-family: var(--app-font);
 
     -webkit-background-clip: text;
     background-clip: text;
 
     -webkit-text-fill-color: transparent;
 
-    font-weight: 800;
+    font-weight: 750;
 }
 
 @keyframes spin {

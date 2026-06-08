@@ -1,6 +1,5 @@
 <script lang="ts">
-import html2pdf from "html2pdf.js";
-let storyElement: HTMLDivElement | null = null;
+let pdfElement: HTMLDivElement | null = null;
 
   export let role; // "user" atau "assistant"
   export let text:any;
@@ -25,31 +24,33 @@ function capitalizeSentences(text: string): string {
     );
 }
 async function downloadPdf() {
-    if (!storyElement) return;
+    if (!pdfElement) return;
+    const html2pdf =
+        (await import("html2pdf.js")).default;
 
-    const opt = {
-        margin: 10,
-        filename: "story.pdf",
-        image: {
-            type: "jpeg",
-            quality: 1
-        },
-        html2canvas: {
-            scale: 2,
-            useCORS: true
-        },
-        jsPDF: {
-            unit: "mm",
-            format: "a4",
-            orientation: "portrait"
-        },
-        pagebreak: {
-            mode: ["css", "legacy"]
-        }
-    };
 
     await html2pdf()
-        .from(storyElement)
+        .set({
+            margin: 0,
+            filename: "story.pdf",
+
+            image: {
+                type: "jpeg",
+                quality: 1
+            },
+
+            html2canvas: {
+                scale: 2,
+                useCORS: true
+            },
+
+            jsPDF: {
+                unit: "mm",
+                format: "a4",
+                orientation: "portrait"
+            }
+        })
+        .from(pdfElement)
         .save();
 }
 
@@ -126,7 +127,6 @@ const fontMap: Record<string, string> = {
 
 .assistant-wrapper {
   margin-top: 30px;
-  margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   align-self: flex-start; /* rata kiri */
@@ -140,25 +140,97 @@ const fontMap: Record<string, string> = {
   margin-top: 2px;    /* jarak dari bubble ke tombol */
   opacity: 0.8;
 }
+
+.pdf-hidden {
+    position: fixed;
+    left: -99999px;
+    top: 0;
+}
+
+.pdf-container {
+    width: 210mm;
+    min-height: 296.8mm;
+
+    box-sizing: border-box;
+
+    background: var(--assistant-bubble);
+    color: var(--font-color);
+
+    padding: 20mm;
+
+    border-radius: 0;
+}
+
+.pdf-story {
+    font-family: var(--app-font), sans-serif;
+
+    font-size: var(--app-font-size);
+
+    line-height: 1.8;
+
+    text-align: justify;
+
+    word-break: break-word;
+}
+
+.pdf-story p {
+    margin-bottom: 1em;
+}
 </style>
 
-
 {#if role === "assistant"}
-  <div class="assistant-wrapper" >
-    <div class="bubble {role} "bind:this={storyElement}>
-      <div class="story">
-        {#each capitalizeSentences(text).split('\n\n') as paragraph}
-          <p>{paragraph}</p>
-        {/each}
-      </div>
+<div class="assistant-wrapper">
+
+    <!-- Bubble chat normal -->
+    <div class="bubble assistant">
+        <div class="story">
+            {#each capitalizeSentences(text).split('\n\n') as paragraph}
+                <p>{paragraph}</p>
+            {/each}
+        </div>
     </div>
 
     <div class="message-actions">
-      <button class="action-btn" on:click={copyText} title="Salin">📋</button>
-      <button class="action-btn" on:click={downloadPdf} title="Download PDF">📥</button>
-      <button class="action-btn" on:click={regenerate} title="Ulangi">🔄</button>
+        <button
+            class="action-btn"
+            on:click={copyText}
+            title="Salin"
+        >
+            📋
+        </button>
+
+        <button
+            class="action-btn"
+            on:click={downloadPdf}
+            title="Download PDF"
+        >
+            📥
+        </button>
+
+        <button
+            class="action-btn"
+            on:click={regenerate}
+            title="Ulangi"
+        >
+            🔄
+        </button>
     </div>
-  </div>
+
+</div>
+
+<!-- Template khusus PDF -->
+<div class="pdf-hidden">
+    <div
+        bind:this={pdfElement}
+        class="pdf-container"
+    >
+        <div class="pdf-story">
+            {#each capitalizeSentences(text).split('\n\n') as paragraph}
+                <p>{paragraph}</p>
+            {/each}
+        </div>
+    </div>
+</div>
 {:else}
   <div class="bubble {role}">
     <div class="story">
