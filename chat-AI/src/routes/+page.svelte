@@ -1,6 +1,86 @@
 <script lang="ts">
- import ChatBubble from "$lib/components/ChatBubble.svelte";
+
+
+import ChatBubble from "$lib/components/ChatBubble.svelte";
 import { onMount, tick } from "svelte";
+
+async function regenerateMessage(index: number) {
+    if (messages[index].role !== "assistant")
+        return;
+
+    let userMessage = null;
+
+    for (let i = index - 1; i >= 0; i--) {
+        if (messages[i].role === "user") {
+            userMessage = messages[i];
+            break;
+        }
+    }
+
+    if (!userMessage) return;
+
+messages = [
+    ...messages,
+    {
+        role: "assistant",
+        text: "Menghasilkan ulang..."
+    }
+];
+
+const loadingIndex =
+    messages.length - 1;
+
+messages = [...messages];
+
+try {
+    const resp = await fetch(
+        "http://localhost:8000/chat",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                messages: [userMessage]
+            })
+        }
+    );
+
+    if (!resp.ok) {
+        throw new Error(
+            `Server error ${resp.status}`
+        );
+    }
+
+    const data = await resp.json();
+
+    messages[loadingIndex] = {
+        role: "assistant",
+        text: data.reply
+    };
+}
+catch (err) {
+    messages[loadingIndex] = {
+        role: "assistant",
+        text: "Gagal menghasilkan ulang."
+    };
+}
+finally {
+    messages = [...messages];
+}
+
+await tick();
+
+const container =
+    document.querySelector(
+        ".chat-output"
+    ) as HTMLElement;
+
+if (container) {
+    container.scrollTop =
+        container.scrollHeight;
+}
+}
 
 let textarea: HTMLTextAreaElement;
 let messages = [
@@ -69,6 +149,7 @@ async function sendMessage() {
     loading = false;
   }
 }
+
 </script>
 <style>
     .chat-container{
@@ -154,8 +235,9 @@ async function sendMessage() {
 
 <div class="chat-container">
     <div class="chat-output">
-        {#each messages as m}
-             <ChatBubble role={m.role} text={m.text} />
+        {#each messages as m, index}
+             <ChatBubble role={m.role} text={m.text} on:regenerate={() => regenerateMessage(index)}
+ />
         {/each}
     </div>
 
