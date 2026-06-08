@@ -10,12 +10,12 @@ onMount(() => {
 	const savedFont =
     localStorage.getItem("font");
 
-if (savedFont) {
-    document.documentElement.style.setProperty(
-        "--app-font",
-        `"${savedFont}"`
-    );
-}
+    if (savedFont) {
+        document.documentElement.style.setProperty(
+            "--app-font",
+            `"${savedFont}"`
+        );
+    }
 
     const savedUser =
         localStorage.getItem("userBubble");
@@ -52,6 +52,18 @@ if (savedFont) {
 			`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
 		);
 	}
+
+    const savedFontColor =
+        localStorage.getItem("fontColor");
+
+    if (savedFontColor) {
+        const rgb = JSON.parse(savedFontColor);
+
+        document.documentElement.style.setProperty(
+            "--font-color",
+            `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
+        );
+    }
 });
 </script>
 

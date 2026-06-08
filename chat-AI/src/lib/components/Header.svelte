@@ -91,9 +91,41 @@ document.documentElement.style.setProperty(
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        border-bottom: #ffffff 3px solid;
         height: 6vh;
+         position: relative;
     }
+    .header::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 2px;
+
+    background: linear-gradient(
+        90deg,
+        #ff8c1a,
+        #0069d2,
+        #0e08d1,
+        #ff8c1a
+    );
+
+    background-size: 300% 100%;
+
+    animation: borderFlow 4s linear infinite;
+}
+
+@keyframes borderFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 300% 50%;
+    }
+}
 
     .navbar-left {
         display: flex;
@@ -130,7 +162,7 @@ document.documentElement.style.setProperty(
         font-size: 17px;
         border-radius: 5px;
         height:100%;
-        min-width: 150px;
+        width: 140px;
     }
 
     .header a {
@@ -142,12 +174,28 @@ document.documentElement.style.setProperty(
         color: white;
         min-width: 100px;
         height: 100%;
+        
+        
     }
 
-    .font-color {
-        height:70%;
-        border-radius: 5px;
-    }
+
+
+    .color-link {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+    width: 140px;
+
+    background: rgb(25,25,25);
+
+    border-radius: 8px;
+    text-decoration: none;
+}
 
 .dropdown-btn {
     background:
@@ -332,8 +380,15 @@ document.documentElement.style.setProperty(
             {/each}
         </div>
     {/if}
+
 </div>
-        <div class="font-color"><a href="/color">Color</a></div>
+    <div class="animated-border">
+        <a href="/color" class="color-link">
+            <span class="gradient-text">
+                Color
+            </span>
+        </a>
+    </div>
         
     </div>
 </div>

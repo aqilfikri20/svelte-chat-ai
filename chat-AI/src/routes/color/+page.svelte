@@ -134,11 +134,11 @@ onMount(() => {
         backgroundB = rgb.b;
     }
     
-    const savedFont =
+    const savedFontColor =
         localStorage.getItem("fontColor");
 
-    if (savedFont) {
-        const rgb = JSON.parse(savedFont);
+    if (savedFontColor) {
+        const rgb = JSON.parse(savedFontColor);
 
         fontR = rgb.r;
         fontG = rgb.g;

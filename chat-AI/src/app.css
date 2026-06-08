@@ -4,6 +4,7 @@
     --user-bubble: #00c96f;
     --assistant-bubble: #2563eb; 
     --background: var(--background);
+    --font-color: white;
 }
 * {
   margin: 0;

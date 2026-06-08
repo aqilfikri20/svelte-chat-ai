@@ -1,6 +1,12 @@
-<script>
+<script lang="ts">
   export let role; // "user" atau "assistant"
   export let text ;
+function capitalizeSentences(text: string): string {
+    return text.replace(
+        /(^\s*[a-zà-ÿ]|[.!?]\s+[a-zà-ÿ])/g,
+        (match: string) => match.toUpperCase()
+    );
+}
   
 </script>
 
@@ -28,7 +34,6 @@
   font-size: var(--app-font-size);
   line-height: 1.7;
   text-align: justify;
-  color: var(--font-color);
   max-width: 700px;
 }
 
@@ -47,8 +52,8 @@
 
 <div class="bubble {role}">
 <div class="story">
-  {#each text.split('\n\n') as paragraph}
-    <p>{paragraph}</p>
-  {/each}
+{#each capitalizeSentences(text).split('\n\n') as paragraph}
+  <p>{paragraph}</p>
+{/each}
 </div>
 </div>
