@@ -154,7 +154,7 @@ document.documentElement.style.setProperty(
 
     .dropdown {
         position: relative;
-        height: 70%;
+
     }
 
     .dropdown button {
@@ -173,12 +173,8 @@ document.documentElement.style.setProperty(
         text-align: center;
         color: white;
         min-width: 100px;
-        height: 100%;
-        
-        
+  
     }
-
-
 
     .color-link {
     position: relative;
@@ -209,8 +205,6 @@ document.documentElement.style.setProperty(
 
     -webkit-text-fill-color:
         transparent;
-
-    font-weight: 600;
 }
 
     .dropdown-menu {
@@ -306,7 +300,7 @@ document.documentElement.style.setProperty(
 
     -webkit-text-fill-color: transparent;
 
-    font-weight: 700;
+    font-weight: 800;
 }
 
 @keyframes spin {
