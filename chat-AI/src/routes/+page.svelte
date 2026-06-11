@@ -85,7 +85,7 @@ if (container) {
 let textarea: HTMLTextAreaElement;
 let messages = [
   { role: "assistant", text: "Halo! Selamat Datang.\n\n Silakan Ketik Kata Kunci untuk Membuat Cerita Anda 😄" },
-  { role: "assistant", text: `Silakan Ketik Kata Kunci untuk Membuat Cerita Anda 😄Silakan Ketik Kata Kunci untuk Membuat Cerita Anda ` },
+  { role: "assistant", text: `Silakan Ketik Kata Kunci untuk Membuat Cerita Anda 😄` },
 ];
 let input = "";
 let loading = false;
